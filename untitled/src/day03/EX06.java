@@ -2,80 +2,124 @@ package day03;
 
 public class EX06 {
     public static void main(String[] args) {
-        // Applephone : 배터리 용량(정수) 100
-        // charge() + 10
-        // use() -5
-        // useKakao -5
-        // useYoutube -10
-        // 배터리 용량 확인
-        // turn on
-        // turn off
-        Applephone apple = new Applephone();
+        Person son = new Person();
+        ApplePhone iphone16 = new ApplePhone();
+        son.buyPhone(iphone16);
+
+        SamsungPhone galaxy2024 = new SamsungPhone();
+        son.buyPhone(galaxy2024);
+
+        // Person => ApplePhone 모든 기능
+        // 30분까지
+        // ApplePhone => SamsungPhone 기기변경
     }
 }
 
-class Applephone{
-    // field 값은 private가 가장 최적.
-    private final int BATTERY_MAX_CAPA = 100; //final로 상수 지정, 최대 용량
-    private int batteryStat = 70; // 배터리 현재 용량
-    private boolean isOn  = true; // 꺼져있을 떄 false, 켜져 있을 때 true. isNotOff 부정부정 => 긍정(isOn)으로 사용
-    Applephone(){
+class ApplePhone implements Phone{
+    private final int BATTERY_MAX_CAPA = 100; // 배터리 최대 용량
+    private int batteryStatus = 70; // 배터리 현재 용량
+    private boolean isOn = true;
 
+    public boolean getIsOn() {
+        return isOn;
     }
-    void charge(){
-        if (this.batteryStat == BATTERY_MAX_CAPA){
+
+    public void charge() {
+        if (batteryStatus == BATTERY_MAX_CAPA) {
             System.out.println("100%입니다.");
             return;
+        } else if (batteryStatus == 95) {
+            batteryStatus += 5;
+        } else {
+            batteryStatus += 10;
         }
-        else if(batteryStat == 95){
-                batteryStat += 5;
-            }
-        else{
-            batteryStat += 10;
-        }
-        System.out.println(batteryStat+"%가 되었습니다.");
-    }
-    void operateKakao() {
-        if (isOn){
-            batteryStat -= 5;
-            if(batteryStat == 0){
-                turnOff();
-            }
 
-        }
-    }
-    void useYoutube() {
-        if (isOn){
-            batteryStat -= 10;
-            if(batteryStat == 0){
-                turnOff();
-            }
-
-        }
-    }
-    void printBattery(){
-        System.out.println(batteryStat+"%");
+        System.out.println(batteryStatus
+                + "%가 되었습니다.");
     }
 
+    public void operateKakaotalk() {
+        if (isOn) {
+            batteryStatus -= 5;
+
+            if (batteryStatus == 0);
+//                turnOff();
+        }
+    }
+
+    public void checkBatteryStatus() {
+        System.out.println(batteryStatus+"%");
+    }
+
+    // useYoutube() -10
+    // turnOn
+    // turnOff
 }
 
-class Person{
-    // charge(), useKakao()
-    Applephone phone;
+class SamsungPhone implements Phone{
+    private final int BATTERY_MAX_CAPA = 100; // 배터리 최대 용량
+    private int batteryStatus = 70; // 배터리 현재 용량
+    private boolean isOn = true;
 
-    //buyPhone
-    void buyPhone(Applephone phone){
-        this.phone = phone;
+    public boolean getIsOn() {
+        return isOn;
     }
-    //charge
-    void chargePhone(){
+
+    public void charge() {
+        if (batteryStatus == BATTERY_MAX_CAPA) {
+            System.out.println("100%입니다.");
+            return;
+        } else if (batteryStatus == 95) {
+            batteryStatus += 5;
+        } else {
+            batteryStatus += 10;
+        }
+
+        System.out.println(batteryStatus
+                + "%가 되었습니다.");
+    }
+
+    public void operateKakaotalk() {
+        if (isOn) {
+            batteryStatus -= 5;
+
+            if (batteryStatus == 0);
+//                turnOff();
+        }
+    }
+
+    public void checkBatteryStatus() {
+        System.out.println(batteryStatus+"%");
+    }
+
+    // useYoutube() -10
+    // turnOn
+    // turnOff
+}
+interface Phone{
+    public abstract boolean getIsOn();
+    void charge();
+    void operateKakaotalk();
+    void checkBatteryStatus();
+}
+class Person {
+    Phone phone;
+    // 자식과 부모 상위, 하위 객체 클래스는 대체해야함
+    // buyPhone()
+    void buyPhone(Phone phone) {
+        this.phone = phone;
+        System.out.println("success");
+
+    }
+
+    // charge()
+    void chargePhone() {
         phone.charge();
     }
-    //useKakao
-    void useKakao(Applephone phone){
-        // 켜져있나?
-        if(phone.isOn){
-            phone.operateKakao();
-        }
+
+    // useKakaotalk()
+    void useKakaotalk() {
+        if (phone.getIsOn())
+            phone.operateKakaotalk();
     }
 }
