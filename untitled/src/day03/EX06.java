@@ -104,6 +104,7 @@ interface Phone{
 }
 class Person {
     Phone phone;
+    ApplePhone phone1;
     // 자식과 부모 상위, 하위 객체 클래스는 대체해야함
     // buyPhone()
     void buyPhone(Phone phone) {
@@ -123,3 +124,10 @@ class Person {
             phone.operateKakaotalk();
     }
 }
+
+
+// Q. 스캐너로 사용자에게 회원가입 입력, 로그인 입력, 회원정보 수정, 회원 탈퇴
+// (1) 메뉴 1~4
+// (2) 기능
+// 스캐너 : 사용자 입력(id, pw, 이름) + 유효성
+// DAO / Repository : DB와 소통 => class DAO Map db/
